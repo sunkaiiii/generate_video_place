@@ -107,14 +107,14 @@ def read_video_by_camera():
         success, frame = cap.read()
         frame = generate_frame(frame)
         cv2.imshow("test", frame)  # 显示图像
-        key = cv2.waitKey(24)
+        key = cv2.waitKey(30)
         c = chr(key & 255)
         if c in ['q', 'Q', chr(27)]:
             break
     cv2.destroyWindow("test")
 
-# read_and_generate_video('D:\文件与资料\Onedrive\图片\Camera Roll\\Note7,iPhone 7拍的\\20161021_091733000_iOS.MOV')
-read_and_generate_image('D:\\1.jpg')
+read_and_generate_video('D:\文件与资料\Onedrive\文档\PycharmProjects\internship_working\cut\\1\\1_271.avi')
+# read_and_generate_image('D:\\1.jpg')
 # read_and_generate_video('D:\\1.mp4')
 # read_video_by_camera()
 
