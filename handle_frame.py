@@ -1,6 +1,7 @@
 #coding=utf-8
 import cv2
 import base64
+from PIL import Image
 
 """
  -------------compare_frame-------------
@@ -41,20 +42,20 @@ def classify_hist_with_split(img1,img2):
 def cal_area_with_classify_pixel(img1,img2):
     count=0
     height,width,channel=img1.shape
-    print(height,width)
+    # print(height,width)
     for h in range(height):
         for w in range(width):
             if img1[h,w].tolist() != img2[h,w].tolist():
                 # print(img1[h, w],img2[h,w])
                 count += 1
-    print(count)
+    # print(count)
 
     return count/(height*width)
 
-def image_to_base64(filename):
-    image=open(filename,'rb')
-    image=image.read()
-    image_base64=base64.b64encode(image)
+def image_to_base64(frame):
+    # frame = Image.fromarray(img1, 'RGB').tobytes()
+    # frame=frame.tobytes()
+    image_base64=base64.b64encode(frame)
     return image_base64
 
 def merge_tow_and_cal_area(rect1,rect2):
@@ -83,5 +84,13 @@ def merge_tow_and_cal_area(rect1,rect2):
 
 if __name__ == "__main__":
     img1=cv2.imread('d:\\1.jpg')
-    img2=cv2.imread('d:\\3.jpg')
-    print(cal_area_with_classify_pixel(img1,img2))
+    img2=open('d:\\1.jpg','rb')
+    img2=img2.read()
+    # print(img2)
+    frame = Image.fromarray(img1, 'RGB').tobytes()
+    print(frame)
+    # img2=base64.b64encode(img2)
+    # print(img2)
+    # # img2=cv2.imread('d:\\3.jpg')
+    # # print(cal_area_with_classify_pixel(img1,img2))
+    # print(image_to_base64(img1))

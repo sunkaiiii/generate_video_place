@@ -1,4 +1,11 @@
-shots={0:'close',
-       1:'middle',
-       2:'far',
+shots={0:'big_close_up',
+       1:'close_up',
+       2:'close_shot',
+       3:'mid_close_shot',
+       4:'mid_shot',
+       5:'full_view',
+       6:'big_full_view',
+       7:'long_shot',
+       8:'big_long_shot',
+       9:'无法识别'
        }

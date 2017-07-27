@@ -12,12 +12,10 @@ import cv2
 #     cv2.waitKey(30)
 # cap.release()
 # cv2.destroyAllWindows()
-
-a=[1,2,3]
-b=[2,3,4]
-c=[1,2,3]
-
-print(a.any(b))
-print(a.any(c))
-print(a.all(b))
-print(a.all(c))
+# cv2.ocl.useOpenCL()
+cv2.ocl.setUseOpenCL(flag=False)
+img1=cv2.imread("d:\\1.jpg")
+img2=cv2.imread('d:\\2.jpg')
+sticher=cv2.createStitcher()
+# cv2.cv2.createStitcher().
+sticher.stitch(img1,img2)
