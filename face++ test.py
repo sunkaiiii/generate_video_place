@@ -230,8 +230,7 @@ def read_cut_video(filename, filepath, count, mode=0):
                 os.mkdir(path+'\\'+dirname)
             if not os.path.exists(path+'\\'+dirname+'\\'+ result):
                 os.mkdir(path+'\\'+dirname+'\\'+ result)
-            cv2.imwrite(path+'\\'+dirname+'\\'+ result + '\\' + str(image_count) + '_' + str(ratio) + '.jpg', frame,
-                        [int(cv2.IMWRITE_JPEG_QUALITY), 100])
+                cv2.imencode(".jpg", frame)[1].tofile(path + '\\' + dirname + '\\' + result + '\\' + str(image_count) + '_' + str(ratio) + '.jpg')
             image_count += 1
     return image_count
 

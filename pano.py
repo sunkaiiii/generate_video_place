@@ -3,15 +3,22 @@ import cv2
 import sys
 from matchers import matchers
 import time
+import os
 
 
 class Stitch:
-    def __init__(self, args):
-        self.path = args
-        # fp = open(self.path, 'r')
-        filenames = ['E:\\test\\1.jpg','E:\\test\\2.jpg','E:\\test\\3.jpg']
-        print(filenames)
-        self.images = [cv2.resize(cv2.imread(each), (480, 320)) for each in filenames]
+    def __init__(self, args,mode=0):
+        if mode==0:
+            self.path = args
+            filenames = []
+            for file in os.listdir(args):
+                filenames.append(args+"\\"+file)
+            print(filenames)
+            self.images = [cv2.resize(cv2.imread(each), (480, 320)) for each in filenames]
+            for i in self.images:
+                print(i.shape)
+        elif mode==1:
+            self.images=[cv2.resize(image,(480,320)) for image in args]
         self.count = len(self.images)
         self.left_list, self.right_list, self.center_im = [], [], None
         self.matcher_obj = matchers()
@@ -45,8 +52,8 @@ class Stitch:
             xh[0][-1] += abs(f1[0])
             xh[1][-1] += abs(f1[1])
             ds = np.dot(xh, np.array([a.shape[1], a.shape[0], 1]))
-            offsety = abs(int(f1[1]))
-            offsetx = abs(int(f1[0]))
+            offsety = abs(f1[1])
+            offsetx = abs(f1[0])
             dsize = (int(ds[0]) + offsetx, int(ds[1]) + offsety)
             print("image dsize =>", dsize)
             tmp = cv2.warpPerspective(a, xh, dsize)
@@ -65,8 +72,8 @@ class Stitch:
             txyz = txyz / txyz[-1]
             dsize = (int(txyz[0]) + self.leftImage.shape[1], int(txyz[1]) + self.leftImage.shape[0])
             tmp = cv2.warpPerspective(each, H, dsize)
-            cv2.imshow("tp", tmp)
-            cv2.waitKey()
+            # cv2.imshow("tp", tmp)
+            # cv2.waitKey()
             # tmp[:self.leftImage.shape[0], :self.leftImage.shape[1]]=self.leftImage
             tmp = self.mix_and_match(self.leftImage, tmp)
             print("tmp shape", tmp.shape)
@@ -131,8 +138,8 @@ if __name__ == '__main__':
     #     args = "txtlists/files1.txt"
     # finally:
     #     print("Parameters : ", args)
-    args='E:\\test\\1.jpg'+'\r\n'+'E:\\test\\2.jpg'+'\r\n'+'E:\\test\\3.jpg'
-    s = Stitch(args)
+    path='E:\\test'
+    s = Stitch(path)
     s.leftshift()
     # s.showImage('left')
     s.rightshift()

@@ -1,13 +1,5 @@
 import numpy as np
 import cv2
-a=[{'width': 227, 'top': 340, 'height': 499, 'left': 147},
-{'width': 171, 'top': 438, 'height': 401, 'left': 847},
-{'width': 210, 'top': 386, 'height': 441, 'left': 527},
-{'width': 184, 'top': 432, 'height': 405, 'left': 680},
-{'width': 174, 'top': 412, 'height': 402, 'left': 319}]
-# for i in a:
-#     print(i)
-
 class point:
     def __init__(self):
         self.x=0
