@@ -2,6 +2,7 @@ import imutils
 import numpy as np
 import cv2
 
+
 class Stitcher:
     # 拼接函数
     def stitch(self, images, ratio=0.75, reprojThresh=4.0, showMatches=False):
@@ -99,18 +100,24 @@ class Stitcher:
 
         # 返回可视化结果
         return vis
-imageA = cv2.imread('d:\\1.jpg')
-imageB = cv2.imread('d:\\2.jpg')
+
+
+imageA = cv2.imread('E:\\test\\1.jpg')
+imageB = cv2.imread('E:\\test\\2.jpg')
+imageC=cv2.imread('E:\\test\\3.jpg')
 imageA = imutils.resize(imageA, width=400)
 imageB = imutils.resize(imageB, width=400)
+imageC=imutils.resize(imageC,width=400)
 
 # stitch the images together to create a panorama
 stitcher = Stitcher()
-(result, vis) = stitcher.stitch([imageA, imageB], showMatches=True)
+(result, vis) = stitcher.stitch([imageA, imageC], showMatches=True)
 
-# show the images
-cv2.imshow("Image A", imageA)
-cv2.imshow("Image B", imageB)
-cv2.imshow("Keypoint Matches", vis)
-cv2.imshow("Result", result)
+# # show the images
+# cv2.imshow("Image A", imageA)
+# cv2.imshow("Image B", imageB)
+# cv2.imshow("Keypoint Matches", vis)
+cv2.imshow("Result1", result)
+(result,vis)=stitcher.stitch([result,imageC],showMatches=True)
+cv2.imshow("Result2", result)
 cv2.waitKey(0)
