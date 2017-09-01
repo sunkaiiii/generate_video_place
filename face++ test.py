@@ -7,9 +7,13 @@ import handle_frame
 import Global_Variables
 import os
 
+'''
+暂时使用的是face++的人脸检测api，需要到官方上申请免费api使用
+'''
+
 URL = 'https://api-cn.faceplusplus.com/humanbodypp/beta/detect'  # fance++调用身体监测的地址
-API_KEY = 'iJZuow0cOQez62sxfNdjzjwXkaX9y0rB'  # 申请的api的key
-API_SECRET = 'gz_PVjfT8V7DrMxfAOpOreAwMN1L2dGY'  # 申请的api的secret
+API_KEY = ''  # 申请的api的key
+API_SECRET = ''  # 申请的api的secret
 
 '''
 暂时使用的base64将图片进行编码传输
@@ -22,7 +26,7 @@ DATA = {
     'image_base64': ''
 }
 
-
+shot_path="shots"
 def merge_rectangle(json_rectangles):
     rectangles = []
     for rectangle in json_rectangles:
@@ -77,6 +81,12 @@ def cal_area(human_info, frame, paint_frame):
 
 
 def generate_video_image(frame, mode):
+    """
+    判断景别
+    mode:
+    mode=0:判断所有矩形所占的面积以此判断景别
+    mode=1:判断面积最大的矩形判断景别
+    """
     shape = frame.shape
     width = 1024
     proportion = float(shape[0]) / float(shape[1])
@@ -89,7 +99,7 @@ def generate_video_image(frame, mode):
     paint_frame = cv2.imread('middle.jpg')
     frame_binary = open('middle.jpg', 'rb')
     frame_binary = frame_binary.read()
-    human_info, length = find_human_body(frame_binary)
+    human_info, length = find_human_body(frame_binary) #调用face++ api，并返回json
     if length == 0:
         return Global_Variables.shots[9], 0
     if mode == 1:
@@ -194,6 +204,9 @@ def generate_video_image(frame, mode):
 
 
 def read_cut_video(filename, filepath, count, mode=0):
+    """
+    对视频进行分割
+    """
     image_count = count
     capture = cv2.VideoCapture(filename)
     if not capture.isOpened():
@@ -222,7 +235,7 @@ def read_cut_video(filename, filepath, count, mode=0):
                 result, ratio = generate_video_image(frame, mode)
             except:
                 continue
-            path = "E:\shots"
+            path = os.getcwd()+'\\'+shot_path
             if not os.path.exists(path):
                 os.mkdir(path)
             dirname=filepath.split('\\')[len(filepath.split('\\'))-1]
@@ -244,18 +257,16 @@ def read_video_list(filepath, mode=0):
     :return:
     """
     count = 0
+    extends=[".avi",".mp4",".ts",".mkv",".mpg"]
     list = os.listdir(filepath)
     for file in list:
         file = os.path.join(filepath, file)
         if not os.path.isdir(file):
-            print('读取' + file)
-            count = read_cut_video(file, filepath, count, mode=mode)
+            (shotname,extend)=os.path.splitext(file)
+            if extend in extends:
+                print('读取' + file)
+                count = read_cut_video(file, filepath, count, mode=mode)
 
 
-# image=cv2.imread('d:\\2.jpg')
-# print(generate_video_image(image))
-# generate_video_image(image)
-read_video_list('D:\文件与资料\Onedrive\文档\PycharmProjects\internship_working\cut\S.W.A.T.2003.720p.BluRay.DTS.x264-CtrlHD',mode=1)
-# read_cut_video(
-#     'D:\文件与资料\Onedrive\文档\PycharmProjects\internship_working\cut\S.W.A.T.2003.720p.BluRay.DTS.x264-CtrlHD\S.W.A.T.2003.720p.BluRay.DTS.x264-CtrlHD_126.avi',
-#     'D:\文件与资料\Onedrive\文档\PycharmProjects\internship_working\cut\S.W.A.T.2003.720p.BluRay.DTS.x264-CtrlHD', 0, mode=1)
+
+read_video_list('D:\Onedrive\文档\PycharmProjects\cut_video_and_generate_color_with_python-opencv\cut\V60511-173651',mode=1)
