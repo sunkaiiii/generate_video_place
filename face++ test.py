@@ -2,7 +2,6 @@ import urllib.parse
 import urllib.request
 import json
 import cv2
-import numpy as np
 import handle_frame
 import Global_Variables
 import os
@@ -251,9 +250,6 @@ def read_cut_video(filename, filepath, count, mode=0):
 def read_video_list(filepath, mode=0):
     """
     读取剪裁文件夹下的所有文件，并依次对其进行分析
-    :param mode:
-    0、对横坐标切割10份，分析每一份中的最主题颜色
-    1、对图像整体分析颜色，取前10个主题颜色。
     :return:
     """
     count = 0

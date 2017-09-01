@@ -31,10 +31,10 @@ def read_video(filename):
                 stich_path+shotname+'\\'+str(imageCount)+'.jpg')
             imageCount+=1
             count=0
-    stitcher_iamge(shotname)
+    stitcher_image(shotname)
 
 
-def stitcher_iamge(shotname):
+def stitcher_image(shotname):
     """
     使用OpenCV的stitcher进行拼接
     ****需要OpenCV 3.3.0****
