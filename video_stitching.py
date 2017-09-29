@@ -56,4 +56,4 @@ def read_file_list(path):
 
 
 
-read_video('E:\\2.mp4')
+# read_video('E:\\2.mp4')
